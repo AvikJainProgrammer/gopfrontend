@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Chatbot Extension",
+  "version": "1.0",
+  "permissions": ["activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://punjab.gov.in/*"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "index.html",
+        "style.css",
+        "index.js",
+        "images/lady.png",
+        "images/GoP.png",
+        "images/chatgptlogo.png",
+        "images/chatbot-icon.png"
+      ],
+      "matches": ["https://punjab.gov.in/*"]
+    }
+  ]
+}
