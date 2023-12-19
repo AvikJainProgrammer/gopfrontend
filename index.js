@@ -124,58 +124,45 @@ class Chatbox {
   }
 
   updateChatText(chatbox) {
-    const chatmessage = chatbox.querySelector(".chatbox__messages");
     let html = "";
-
     this.messages
       .slice()
       .reverse()
       .forEach(function (item, index) {
-        let messageHTML = "";
-
         if (item.name === "Sam") {
-          const urlRegex = /(?:https?|ftp):\/\/[\n\S]+/g;
+          const urlRegex = /(?:https:\/\/)[\S][^)]+/g;
           let message = item.message;
           message = message.replace(urlRegex, (url) => {
             return (
-              '<br/><a href="' +
+              '<a href="' +
               url +
               '" target="_blank">' +
-              "Document Link" +
+              "Link" +
               "</a>"
             );
           });
-          const docRegex = /\[.*\]/g;
+          const docRegex = /\[d.*\]/g;
           // console.log(message);
           message = message.replace(docRegex, "");
+          message = message.replace(/Link<\/a>$/g, "<br/>Document Link</a>");
           // console.log(message);
-          messageHTML =
-            '<div class="messages__item messages__item--visitor"><p>' +
+          html +=
+            '<div class="messages__item messages__item--visitor"><p class="chatbox__messages_content">' +
             message +
             "</p></div>";
         } else if (item.name === "User") {
-          messageHTML =
-            '<div class="messages__item messages__item--operator">' +
+          html +=
+            '<div class="messages__item messages__item--operator"><p class="chatbox__messages_content font__white">' +
             item.message +
-            "</div>";
+            "</p></div>";
         } else {
-          messageHTML =
-            '<div class="messages__item messages__item--visitor">' +
+          html +=
+            '<div class="messages__item messages__item--visitor"><p class="chatbox__messages_content">' +
             item.message +
-            "</div>";
+            "</p></div>";
         }
-
-        // Detect URLs and make them clickable
-        // const urlRegex = /(?:https?|ftp):\/\/[\n\S]+/g;
-        // console.log(messageHTML)
-        // messageHTML = messageHTML.replace(urlRegex, (url) => {
-        //   console.log(url)
-        //   return '<a href="' + url + '" target="_blank">' + url + "</a>";
-        // });
-
-        html += messageHTML;
       });
-
+    const chatmessage = chatbox.querySelector(".chatbox__messages");
     chatmessage.innerHTML = html;
     let messageBody = document.querySelector(".chatbox__messages");
     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
